@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Primary Meta Tags -->
+    <title>PDF Nest - Free Online PDF Tools | Merge, Split, Compress PDF Files</title>
+    <meta name="description" content="Free online PDF tools: Merge, split, compress, convert PDF files. No installation, 100% secure, mobile-friendly PDF editor with drag & drop interface. Process PDFs directly in your browser.">
+    <meta name="keywords" content="pdf tools, merge pdf, split pdf, compress pdf, convert pdf, pdf editor, online pdf tools, free pdf tools, pdf to word, pdf to jpg, images to pdf, pdf merger, pdf splitter">
+    <meta name="keywords" content="pdf tools, merge pdf, split pdf, compress pdf, convert pdf, pdf editor, online pdf tools, free pdf tools">
+    <meta name="author" content="PDF Nest">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pdfnest.com/">
+    <meta property="og:title" content="PDF Nest - Free Online PDF Tools">
+    <meta property="og:description" content="Free online PDF tools. Merge, split, compress, convert PDF files. No installation required.">
+    <meta property="og:image" content="https://pdfnest.com/images/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://pdfnest.com/">
+    <meta property="twitter:title" content="PDF Nest - Free Online PDF Tools">
+    <meta property="twitter:description" content="Free online PDF tools. Merge, split, compress, convert PDF files.">
+    <meta property="twitter:image" content="https://pdfnest.com/images/twitter-image.jpg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://pdfnest.com/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Structured Data -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "PDF Nest",
+    "url": "https://pdfnest.com/",
+    "logo": "https://pdfnest.com/images/logo.png",
+    "description": "Free online PDF tools for merging, splitting, compressing and converting PDF files",
+    "sameAs": [],
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "support@pdfnest.com",
+        "contactType": "customer service"
+    }
+}
+</script>
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    /* ===== MOBILE-FIRST CSS ===== */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+        --primary: #667eea;
+        --primary-dark: #5a6fd8;
+        --secondary: #764ba2;
+        --accent: #f093fb;
+        --success: #4ade80;
+        --warning: #f59e0b;
+        --error: #ef4444;
+        --light: #f8fafc;
+        --dark: #1e293b;
+        --gray: #64748b;
+        --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --gradient-hover: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    }
+
+    html {
+        font-size: 16px;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        background: var(--light);
+        color: var(--dark);
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    /* ===== MOBILE NAVIGATION ===== */
+    .mobile-nav {
+        position: fixed;
+        top: 0;
+        left: -280px;
+        width: 280px;
+        height: 100vh;
+        background: white;
+        box-shadow: 2px 0 20px rgba(0,0,0,0.1);
+        z-index: 1000;
+        transition: left 0.3s ease;
+        padding: 2rem 1.5rem;
+    }
+
+    .mobile-nav.open {
+        left: 0;
+    }
+
+    .nav-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f1f5f9;
+    }
+
+    .nav-logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+    }
+
+    .close-nav {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--gray);
+        cursor: pointer;
+    }
+
+    .nav-links {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        color: var(--dark);
+        text-decoration: none;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        font-weight: 600;
+    }
+
+    .nav-link:hover {
+        background: var(--light);
+        color: var(--primary);
+        transform: translateX(5px);
+    }
+
+    .nav-link i {
+        width: 20px;
+        text-align: center;
+    }
+
+    .nav-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+        display: none;
+    }
+
+    .nav-overlay.show {
+        display: block;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+        background: var(--gradient);
+        color: white;
+        padding: 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.5rem;
+        font-weight: 800;
+    }
+
+    .logo i {
+        font-size: 1.75rem;
+        animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+
+    .menu-btn {
+        background: rgba(255,255,255,0.2);
+        border: none;
+        color: white;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 1.25rem;
+        transition: all 0.3s ease;
+    }
+
+    .menu-btn:hover {
+        background: rgba(255,255,255,0.3);
+        transform: scale(1.05);
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+        background: var(--gradient);
+        color: white;
+        padding: 3rem 1rem;
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        margin-bottom: 2rem;
+    }
+
+    .hero-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem;
+        background: rgba(255,255,255,0.1);
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+    }
+
+    .feature-item i {
+        font-size: 1.5rem;
+    }
+
+    /* ===== TOOLS GRID ===== */
+    .tools-section {
+    padding: 3rem 1rem;
+    max-width: 1200px;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-right: auto;
+    margin-bottom: 0; /* removed bottom margin */
+    margin-left: auto;
+}
+
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .section-title h2 {
+        font-size: 2.25rem;
+        font-weight: 800;
+        color: var(--dark);
+        margin-bottom: 1rem;
+    }
+
+    .section-title p {
+        font-size: 1.1rem;
+        color: var(--gray);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* ===== TOOLS GRID - FIXED FOR MOBILE ===== */
+    .tools-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    /* ===== TOOL CARD ===== */
+   .tool-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid #e2e8f0;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 4px;
+    background: var(--gradient);
+    transition: left 0.4s ease;
+    z-index: 2;
+}
+
+.tool-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient);
+    opacity: 0;
+    transition: all 0.4s ease;
+    z-index: 1;
+}
+
+/* Desktop Hover Effects */
+@media (hover: hover) and (pointer: fine) {
+    .tool-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 25px 50px rgba(102, 126, 234, 0.2);
+        border-color: var(--primary);
+    }
+
+    .tool-card:hover::before {
+        left: 0;
+    }
+
+    .tool-card:hover::after {
+        opacity: 0.03;
+    }
+
+    .tool-card:hover .tool-icon {
+        transform: scale(1.1) rotate(5deg);
+        background: var(--gradient-hover);
+    }
+
+    .tool-card:hover .tool-link {
+        color: var(--primary-dark);
+        gap: 0.75rem;
+    }
+
+    .tool-card:hover .tool-link i {
+        transform: translateX(3px);
+    }
+
+    @keyframes pulse-glow {
+        0% {
+            box-shadow: 0 25px 50px rgba(102, 126, 234, 0.2);
+        }
+        50% {
+            box-shadow: 0 25px 50px rgba(102, 126, 234, 0.3);
+        }
+        100% {
+            box-shadow: 0 25px 50px rgba(102, 126, 234, 0.2);
+        }
+    }
+
+    .tool-card:hover {
+        animation: pulse-glow 2s infinite;
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(-8px) scale(1.02);
+        }
+        50% {
+            transform: translateY(-12px) scale(1.02);
+        }
+    }
+
+    .tool-card:hover {
+        animation: pulse-glow 2s infinite, float 3s ease-in-out infinite;
+    }
+}
+
+/* Mobile Touch Effects */
+@media (max-width: 768px) {
+    .tool-card {
+        /* Add a subtle active state for mobile */
+        transition: all 0.2s ease;
+    }
+    
+    .tool-card:active {
+        transform: translateY(-2px) scale(0.98);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+        border-color: var(--primary);
+    }
+    
+    .tool-card:active::before {
+        left: 0;
+    }
+    
+    .tool-card:active::after {
+        opacity: 0.03;
+    }
+    
+    .tool-card:active .tool-icon {
+        transform: scale(1.05);
+    }
+    
+    .tool-card:active .tool-link {
+        color: var(--primary-dark);
+    }
+}
+
+/* Alternative: Add a "pressed" class via JavaScript for better mobile experience */
+.tool-card.pressed {
+    transform: translateY(-2px) scale(0.98);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+    border-color: var(--primary);
+}
+
+.tool-card.pressed::before {
+    left: 0;
+}
+
+.tool-card.pressed::after {
+    opacity: 0.03;
+}
+
+.tool-card.pressed .tool-icon {
+    transform: scale(1.05);
+}
+
+.tool-card.pressed .tool-link {
+    color: var(--primary-dark);
+}
+
+.tool-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--gradient);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    color: white;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.tool-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.tool-link i {
+    transition: transform 0.3s ease;
+}
+
+.tool-card * {
+    position: relative;
+    z-index: 2;
+}
+
+    .tool-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .tool-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--gradient);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+        color: white;
+    }
+
+    .tool-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--dark);
+    }
+
+    .tool-description {
+        color: var(--gray);
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+    }
+
+    .tool-features {
+        list-style: none;
+        margin-bottom: 1.5rem;
+    }
+
+    .tool-features li {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+        color: var(--gray);
+        font-size: 0.9rem;
+    }
+
+    .tool-features li i {
+        color: var(--success);
+        font-size: 0.8rem;
+    }
+
+    .tool-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--primary);
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .tool-link:hover {
+        gap: 0.75rem;
+        color: var(--primary-dark);
+    }
+
+    /* ===== FEATURES SECTION ===== */
+ .features-section {
+    background: #f8fafc;
+    padding: 0 1rem 4rem 1rem; /* top right bottom left */
+    margin-top: 0;
+}
+
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .feature-card {
+        text-align: center;
+        padding: 2rem 1rem;
+    }
+
+    .feature-card i {
+        font-size: 3rem;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--dark);
+    }
+
+    .feature-card p {
+        color: var(--gray);
+        line-height: 1.6;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+        background: var(--dark);
+        color: white;
+        padding: 3rem 1rem 2rem;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .footer-column h3 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .footer-links {
+        list-style: none;
+    }
+
+    .footer-links li {
+        margin-bottom: 0.5rem;
+    }
+
+    .footer-links a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+        color: white;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid #334155;
+        color: #94a3b8;
+    }
+
+    /* ===== RESPONSIVE DESIGN - FIXED ===== */
+    /* Tablet: 768px and below */
+    @media (max-width: 768px) {
+        .hero h1 {
+            font-size: 2rem;
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+        }
+        
+        .section-title h2 {
+            font-size: 1.75rem;
+        }
+        
+        .section-title p {
+            font-size: 1rem;
+        }
+        
+        /* TOOLS GRID: 2 columns on tablets */
+        .tools-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .tool-card {
+            padding: 1.5rem;
+        }
+        
+        .tool-header {
+            flex-direction: column;
+            text-align: center;
+            gap: 0.75rem;
+        }
+        
+        .tool-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+        }
+        
+        .tool-title {
+            font-size: 1.25rem;
+        }
+        
+        /* FEATURES GRID: 2 columns on tablets */
+        .features-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .feature-card {
+            padding: 1.5rem 1rem;
+        }
+        
+        .feature-card i {
+            font-size: 2.5rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.1rem;
+        }
+        
+        /* HERO FEATURES: 2 columns on tablets */
+        .hero-features {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+        
+        .feature-item {
+            padding: 0.75rem;
+            font-size: 0.9rem;
+            justify-content: center;
+            text-align: center;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .feature-item i {
+            font-size: 1.25rem;
+        }
+    }
+
+    /* Mobile: 480px and below */
+    @media (max-width: 480px) {
+        .hero {
+            padding: 2rem 1rem;
+        }
+        
+        .hero h1 {
+            font-size: 1.75rem;
+        }
+        
+        .hero p {
+            font-size: 1rem;
+        }
+        
+        .section-title {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title h2 {
+            font-size: 1.5rem;
+        }
+        
+        /* KEEP 2 COLUMNS ON MOBILE - DON'T CHANGE TO 1 COLUMN */
+        .tools-grid {
+            grid-template-columns: repeat(2, 1fr); /* Keep 2 columns */
+            gap: 0.75rem;
+        }
+        
+        .tool-card {
+            padding: 1.25rem;
+        }
+        
+        .tool-header {
+            gap: 0.5rem;
+        }
+        
+        .tool-icon {
+            width: 45px;
+            height: 45px;
+            font-size: 1.25rem;
+        }
+        
+        .tool-title {
+            font-size: 1.1rem;
+        }
+        
+        .tool-description {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tool-features {
+            margin-bottom: 1rem;
+        }
+        
+        .tool-features li {
+            font-size: 0.8rem;
+        }
+        
+        /* KEEP 2 COLUMNS ON MOBILE FOR FEATURES TOO */
+        .features-grid {
+            grid-template-columns: repeat(2, 1fr); /* Keep 2 columns */
+            gap: 0.75rem;
+        }
+        
+        .feature-card {
+            padding: 1.25rem 0.75rem;
+        }
+        
+        .feature-card i {
+            font-size: 2rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .feature-card p {
+            font-size: 0.85rem;
+        }
+        
+        /* HERO FEATURES: Keep 2 columns on mobile */
+        .hero-features {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+        
+        .feature-item {
+            padding: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .feature-item i {
+            font-size: 1rem;
+        }
+    }
+
+    /* Extra Small Mobile: 360px and below */
+    @media (max-width: 360px) {
+        /* For very small screens, you might want 1 column */
+        .tools-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .hero-features {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* ===== ACCESSIBILITY ===== */
+    @media (prefers-reduced-motion: reduce) {
+        * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+</style>
+</head>
+<body>
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="nav-header">
+            <div class="nav-logo">📄 PDF Nest</div>
+            <button class="close-nav" id="closeNav">✕</button>
+        </div>
+        <nav class="nav-links">
+            <a href="/" class="nav-link">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="/merge-pdf" class="nav-link">
+                <i class="fas fa-link"></i>
+                <span>Merge PDF</span>
+            </a>
+            <a href="/split-pdf" class="nav-link">
+                <i class="fas fa-cut"></i>
+                <span>Split PDF</span>
+            </a>
+            <a href="/delete-pdf-pages" class="nav-link">
+                <i class="fas fa-trash"></i>
+                <span>Delete Pages</span>
+            </a>
+            <a href="/reorder-pdf-pages" class="nav-link">
+                <i class="fas fa-sort"></i>
+                <span>Reorder Pages</span>
+            </a>
+            <a href="/compress-pdf" class="nav-link">
+                <i class="fas fa-compress"></i>
+                <span>Compress PDF</span>
+            </a>
+            <a href="/convert-pdf" class="nav-link">
+                <i class="fas fa-exchange-alt"></i>
+                <span>Convert PDF</span>
+            </a>
+        </nav>
+    </div>
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-feather-pointed"></i>
+                <span>PDF Nest</span>
+            </div>
+            <button class="menu-btn" id="menuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>All Your PDF Tools in One Place</h1>
+            <p>Merge, split, compress, and convert PDF files with our free online tools. No installation required - work directly in your browser.</p>
+            
+            <div class="hero-features">
+                <div class="feature-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>100% Secure</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-bolt"></i>
+                    <span>Fast Processing</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span>Mobile Friendly</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-infinity"></i>
+                    <span>Unlimited Use</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Grid Section -->
+    <section class="tools-section">
+        <div class="section-title">
+            <h2>Free PDF Tools</h2>
+            <p>Choose from our collection of powerful PDF tools to edit and manage your documents</p>
+        </div>
+
+        <div class="tools-grid">
+    <!-- Merge PDF Card -->
+    <a href="/merge-pdf" class="tool-card">
+        <div class="tool-header">
+            <div class="tool-icon">🔗</div>
+            <h3 class="tool-title">Merge PDF</h3>
+        </div>
+        <p class="tool-description">Combine multiple PDFs into one file</p>
+        <ul class="tool-features">
+            <li><i class="fas fa-check"></i> Unlimited PDFs</li>
+            <li><i class="fas fa-check"></i> Keep quality</li>
+            <li><i class="fas fa-check"></i> Easy drag & drop</li>
+        </ul>
+        <span class="tool-link">
+            Merge PDF
+            <i class="fas fa-arrow-right"></i>
+        </span>
+    </a>
+
+    <!-- Split PDF Card -->
+    <a href="/split-pdf" class="tool-card">
+        <div class="tool-header">
+            <div class="tool-icon">✂️</div>
+            <h3 class="tool-title">Split PDF</h3>
+        </div>
+        <p class="tool-description">Divide PDF into multiple files</p>
+        <ul class="tool-features">
+            <li><i class="fas fa-check"></i> Split by pages</li>
+            <li><i class="fas fa-check"></i> Extract pages</li>
+            <li><i class="fas fa-check"></i> Quick processing</li>
+        </ul>
+        <span class="tool-link">
+            Split PDF
+            <i class="fas fa-arrow-right"></i>
+        </span>
+    </a>
+
+    <!-- Delete Pages Card -->
+    <a href="/delete-pdf-pages" class="tool-card">
+        <div class="tool-header">
+            <div class="tool-icon">🗑️</div>
+            <h3 class="tool-title">Delete Pages</h3>
+        </div>
+        <p class="tool-description">Remove unwanted pages from PDF</p>
+        <ul class="tool-features">
+            <li><i class="fas fa-check"></i> Select pages</li>
+            <li><i class="fas fa-check"></i> Range selection</li>
+            <li><i class="fas fa-check"></i> Page preview</li>
+        </ul>
+        <span class="tool-link">
+            Delete Pages
+            <i class="fas fa-arrow-right"></i>
+        </span>
+    </a>
+
+    <!-- Reorder Pages Card -->
+    <a href="/reorder-pdf-pages" class="tool-card">
+        <div class="tool-header">
+            <div class="tool-icon">🔄</div>
+            <h3 class="tool-title">Reorder Pages</h3>
+        </div>
+        <p class="tool-description">Rearrange PDF pages easily</p>
+        <ul class="tool-features">
+            <li><i class="fas fa-check"></i> Drag & drop</li>
+            <li><i class="fas fa-check"></i> Visual editor</li>
+            <li><i class="fas fa-check"></i> Mobile friendly</li>
+        </ul>
+        <span class="tool-link">
+            Reorder Pages
+            <i class="fas fa-arrow-right"></i>
+        </span>
+    </a>
+
+    <!-- Compress PDF Card -->
+    <a href="/compress-pdf" class="tool-card">
+        <div class="tool-header">
+            <div class="tool-icon">📦</div>
+            <h3 class="tool-title">Compress PDF</h3>
+        </div>
+        <p class="tool-description">Reduce PDF file size</p>
+        <ul class="tool-features">
+            <li><i class="fas fa-check"></i> 3 compression levels</li>
+            <li><i class="fas fa-check"></i> Quality maintained</li>
+            <li><i class="fas fa-check"></i> Fast compression</li>
+        </ul>
+        <span class="tool-link">
+            Compress PDF
+            <i class="fas fa-arrow-right"></i>
+        </span>
+    </a>
+
+    <!-- Convert PDF Card -->
+    <a href="/convert-pdf" class="tool-card">
+        <div class="tool-header">
+            <div class="tool-icon">📄</div>
+            <h3 class="tool-title">Convert PDF</h3>
+        </div>
+        <p class="tool-description">Convert to/from PDF format</p>
+        <ul class="tool-features">
+            <li><i class="fas fa-check"></i> PDF to Word/Text</li>
+            <li><i class="fas fa-check"></i> Images to PDF</li>
+            <li><i class="fas fa-check"></i> Multiple formats</li>
+        </ul>
+        <span class="tool-link">
+            Convert Files
+            <i class="fas fa-arrow-right"></i>
+        </span>
+    </a>
+</div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="section-title">
+            <h2>Why Choose PDF Nest?</h2>
+            <p>We provide the best PDF tools with focus on user experience and security</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-lock"></i>
+                <h3>100% Secure</h3>
+                <p>Your files are processed securely in your browser. We never store or access your documents on our servers.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-bolt"></i>
+                <h3>Lightning Fast</h3>
+                <p>Process PDF files in seconds with our optimized algorithms. No waiting for uploads or downloads.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Mobile Optimized</h3>
+                <p>Works perfectly on all devices - desktop, tablet, and mobile. Touch-friendly interface for all users.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-infinity"></i>
+                <h3>Completely Free</h3>
+                <p>All tools are 100% free with no limitations. No watermarks, no registration, no hidden costs.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>PDF Nest</h3>
+                <p>Free online PDF tools for all your document needs. Secure, fast, and easy to use.</p>
+            </div>
+            <div class="footer-column">
+                <h3>PDF Tools</h3>
+                <ul class="footer-links">
+                    <li><a href="/merge-pdf">Merge PDF</a></li>
+                    <li><a href="/split-pdf">Split PDF</a></li>
+                    <li><a href="/delete-pdf-pages">Delete Pages</a></li>
+                    <li><a href="/reorder-pdf-pages">Reorder Pages</a></li>
+                    <li><a href="/compress-pdf">Compress PDF</a></li>
+                    <li><a href="/convert-pdf">Convert PDF</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="/help">Help Center</a></li>
+                    <li><a href="/contact">Contact Us</a></li>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 PDF Nest. All rights reserved. Free online PDF tools.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Navigation
+        const mobileNav = document.getElementById('mobileNav');
+        const navOverlay = document.getElementById('navOverlay');
+        const menuBtn = document.getElementById('menuBtn');
+        const closeNav = document.getElementById('closeNav');
+
+        function openNav() {
+            mobileNav.classList.add('open');
+            navOverlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeNavigation() {
+            mobileNav.classList.remove('open');
+            navOverlay.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        menuBtn.addEventListener('click', openNav);
+        closeNav.addEventListener('click', closeNavigation);
+        navOverlay.addEventListener('click', closeNavigation);
+
+        // Close nav on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeNavigation();
+            }
+        });
+
+        // Add structured data for tools
+        const toolStructuredData = {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "name": "PDF Tools Collection",
+            "description": "Collection of free online PDF tools including merge, split, compress, and convert",
+            "numberOfItems": 6,
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "item": {
+                        "@type": "SoftwareApplication",
+                        "name": "Merge PDF Tool",
+                        "url": "https://pdfnest.com/merge-pdf",
+                        "description": "Combine multiple PDF files into one document"
+                    }
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "item": {
+                        "@type": "SoftwareApplication",
+                        "name": "Split PDF Tool",
+                        "url": "https://pdfnest.com/split-pdf",
+                        "description": "Divide PDF files into multiple documents"
+                    }
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "item": {
+                        "@type": "SoftwareApplication",
+                        "name": "Delete PDF Pages Tool",
+                        "url": "https://pdfnest.com/delete-pdf-pages",
+                        "description": "Remove unwanted pages from PDF files"
+                    }
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 4,
+                    "item": {
+                        "@type": "SoftwareApplication",
+                        "name": "Reorder PDF Pages Tool",
+                        "url": "https://pdfnest.com/reorder-pdf-pages",
+                        "description": "Rearrange PDF pages in any order"
+                    }
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 5,
+                    "item": {
+                        "@type": "SoftwareApplication",
+                        "name": "Compress PDF Tool",
+                        "url": "https://pdfnest.com/compress-pdf",
+                        "description": "Reduce PDF file size without losing quality"
+                    }
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 6,
+                    "item": {
+                        "@type": "SoftwareApplication",
+                        "name": "Convert PDF Tool",
+                        "url": "https://pdfnest.com/convert-pdf",
+                        "description": "Convert PDF files to other formats"
+                    }
+                }
+            ]
+        };
+
+        // Add structured data to page
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.text = JSON.stringify(toolStructuredData);
+        document.head.appendChild(script);
+
+        console.log('PDF Nest Home Page Loaded - SEO Optimized');
+    </script>
+</body>
+</html>
