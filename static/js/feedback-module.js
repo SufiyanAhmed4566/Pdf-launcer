@@ -288,7 +288,7 @@ class FeedbackFormManager {
 // Create global instance
 window.FeedbackManager = new FeedbackFormManager();
 
-// Add CSS styles dynamically
+// Add CSS styles dynamically// Replace the feedbackStyles constant with this complete code:
 const feedbackStyles = `
 <style>
     .feedback-overlay {
@@ -439,11 +439,15 @@ const feedbackStyles = `
         justify-content: space-between;
         gap: 0.5rem;
         margin: 1.5rem 0;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 0.25rem 0;
     }
 
     .emoji-rating-item {
-        flex: 1;
+        flex: 1 1 0;
+        min-width: 0;
         text-align: center;
         padding: 0.75rem 0.25rem;
         border: 2px solid #e2e8f0;
@@ -453,7 +457,6 @@ const feedbackStyles = `
         background: white;
         position: relative;
         overflow: hidden;
-        min-width: 0;
     }
 
     .emoji-rating-item:hover {
@@ -511,6 +514,9 @@ const feedbackStyles = `
         font-size: 0.8rem;
         transition: color 0.3s ease;
         line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .emoji-rating-item.selected .emoji-label {
@@ -525,6 +531,9 @@ const feedbackStyles = `
         transition: opacity 0.3s ease;
         height: 0;
         line-height: 1.1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .emoji-rating-item:hover .emoji-description,
@@ -640,8 +649,31 @@ const feedbackStyles = `
     /* Mobile-specific optimizations */
     @media (max-width: 768px) {
         .feedback-form {
-            padding: 1.5rem;
-            margin: 1rem;
+            padding: 1.25rem;
+            margin: 0.5rem;
+            max-height: 95vh;
+        }
+        
+        .feedback-header h2 {
+            font-size: 1.4rem;
+        }
+        
+        .feedback-header p {
+            font-size: 0.9rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        
+        .form-label {
+            font-size: 0.9rem;
+            margin-bottom: 0.4rem;
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            padding: 0.65rem 0.85rem;
+            font-size: 0.95rem;
         }
         
         .form-actions {
@@ -649,19 +681,20 @@ const feedbackStyles = `
         }
         
         .emoji-rating-group {
-            gap: 0.25rem;
+            gap: 0.4rem;
             margin: 1rem 0;
         }
         
         .emoji-rating-item {
-            padding: 0.5rem 0.125rem;
+            padding: 0.65rem 0.15rem;
             border-radius: 8px;
-            min-width: 55px;
+            min-width: 60px;
+            flex-shrink: 0;
         }
         
         .emoji-icon {
-            font-size: 1.25rem;
-            margin-bottom: 0.125rem;
+            font-size: 1.4rem;
+            margin-bottom: 0.2rem;
         }
         
         .emoji-label {
@@ -669,7 +702,7 @@ const feedbackStyles = `
         }
         
         .emoji-description {
-            font-size: 0.6rem;
+            display: none;
         }
         
         .emoji-rating-item.selected::before {
@@ -679,68 +712,153 @@ const feedbackStyles = `
             top: 2px;
             right: 2px;
         }
+        
+        .checkbox-label {
+            font-size: 0.85rem;
+        }
+        
+        .submit-btn {
+            padding: 0.9rem 1.5rem;
+            font-size: 0.95rem;
+        }
     }
 
     @media (max-width: 480px) {
+        .feedback-form {
+            padding: 1rem;
+            margin: 0.25rem;
+        }
+        
+        .feedback-header h2 {
+            font-size: 1.25rem;
+        }
+        
+        .feedback-header p {
+            font-size: 0.85rem;
+        }
+        
         .emoji-rating-group {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.5rem;
+            gap: 0.3rem;
+            margin: 0.75rem 0;
         }
         
         .emoji-rating-item {
-            min-width: auto;
-            padding: 0.75rem 0.25rem;
+            padding: 0.5rem 0.1rem;
+            min-width: 55px;
+            border-width: 1.5px;
         }
         
         .emoji-icon {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
+            margin-bottom: 0.15rem;
         }
         
         .emoji-label {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
+            line-height: 1.1;
         }
         
-        /* Make the last row centered if we have 5 items */
-        .emoji-rating-item:nth-child(4) {
-            grid-column: 1 / 2;
+        .emoji-rating-item.selected::before {
+            width: 12px;
+            height: 12px;
+            font-size: 0.55rem;
+            top: 1px;
+            right: 1px;
         }
         
-        .emoji-rating-item:nth-child(5) {
-            grid-column: 2 / 3;
+        .form-input, .form-select, .form-textarea {
+            padding: 0.6rem 0.75rem;
+            font-size: 0.9rem;
+        }
+        
+        .form-textarea {
+            min-height: 80px;
+        }
+        
+        .checkbox-label {
+            font-size: 0.8rem;
+            line-height: 1.3;
+        }
+        
+        .submit-btn {
+            padding: 0.85rem 1.25rem;
+            font-size: 0.9rem;
         }
     }
 
     /* For very small screens */
     @media (max-width: 360px) {
+        .feedback-form {
+            padding: 0.85rem;
+        }
+        
+        .feedback-header {
+            margin-bottom: 1.25rem;
+        }
+        
+        .feedback-header h2 {
+            font-size: 1.15rem;
+        }
+        
+        .feedback-header p {
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+        
         .emoji-rating-group {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.375rem;
+            gap: 0.25rem;
+            margin: 0.5rem 0;
         }
         
         .emoji-rating-item {
-            padding: 0.5rem 0.125rem;
+            padding: 0.45rem 0.05rem;
+            min-width: 50px;
+            border-radius: 6px;
         }
         
         .emoji-icon {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
+            margin-bottom: 0.1rem;
         }
         
         .emoji-label {
-            font-size: 0.7rem;
-        }
-        
-        .emoji-description {
             font-size: 0.6rem;
+            line-height: 1;
         }
         
-        /* Adjust grid for 5 items in 2 columns */
-        .emoji-rating-item:nth-child(4) {
-            grid-column: 1 / 2;
+        .emoji-rating-item.selected::before {
+            width: 11px;
+            height: 11px;
+            font-size: 0.5rem;
         }
         
-        .emoji-rating-item:nth-child(5) {
-            grid-column: 2 / 3;
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-label {
+            font-size: 0.85rem;
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            padding: 0.55rem 0.7rem;
+            font-size: 0.85rem;
+            border-width: 1.5px;
+        }
+        
+        .checkbox-label {
+            font-size: 0.75rem;
+        }
+        
+        .submit-btn {
+            padding: 0.8rem 1rem;
+            font-size: 0.85rem;
+        }
+        
+        .close-feedback {
+            font-size: 1.25rem;
+            top: 0.75rem;
+            right: 0.75rem;
         }
     }
 </style>
