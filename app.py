@@ -205,6 +205,17 @@ def save_user_data(data):
 
 init_database()
 
+
+from flask import send_from_directory
+
+@app.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory('.', 'sitemap.xml')
+
+@app.route('/robots.txt')
+def robots():
+    return send_from_directory('.', 'robots.txt')
+
 # Routes - Home and Individual Pages
 @app.route('/')
 def index():
