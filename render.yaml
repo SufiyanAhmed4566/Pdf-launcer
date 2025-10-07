@@ -1,7 +1,10 @@
 services:
   - type: web
-    name: Pdfpilot
+    name: pdf-launcer
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app
     plan: free
+    buildCommand: |-
+      apt-get update
+      apt-get install -y libgl1-mesa-dev libglib2.0-0
+      pip install -r requirements.txt
+    startCommand: python app.py
