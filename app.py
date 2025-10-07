@@ -22,7 +22,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # MySQL Database Configuration
 DB_CONFIG = {
-    'host': 'localhost',
+    'host': '192.168.24.28',
     'user': 'root',
     'password': 'getplacebefore@2025',
     'database': 'pdfnest_db',
