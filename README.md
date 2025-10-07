@@ -1,8 +1,8 @@
-# 📄 PDF Nest - Complete PDF Manipulation Suite
+# 📄 PDF pilot - Complete PDF Manipulation Suite
 
 ## 🚀 Overview
 
-**PDF Nest** is a comprehensive, web-based PDF manipulation tool that provides **6 powerful PDF utilities** with a beautiful, responsive interface. All processing happens **100% locally in your browser** - no files are uploaded to any server, ensuring maximum privacy and security.
+**PDF Pilot** is a comprehensive, web-based PDF manipulation tool that provides **6 powerful PDF utilities** with a beautiful, responsive interface. All processing happens **100% locally in your browser** - no files are uploaded to any server, ensuring maximum privacy and security.
 
 ## ✨ Key Features
 
@@ -130,8 +130,8 @@ pdf_nest/
 
 ### **1. Clone Repository**
 ```bash
-git clone https://github.com/yourusername/pdf-nest.git
-cd pdf-nest
+git clone https://github.com/yourusername/pdf-pilot.git
+cd pdf-pilot
 ```
 
 ### **2. Install Dependencies**
@@ -279,4 +279,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-Made with ❤️ by PDF Nest Team
+Made with ❤️ by PDF pilot Team

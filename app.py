@@ -674,14 +674,6 @@ def compress_pdf():
         print(f"Compression error: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
-@app.route('/robots.txt')
-def robots():
-    return send_file('robots.txt', mimetype='text/plain')
-
-@app.route('/sitemap.xml')
-def sitemap():
-    return send_file('sitemap.xml', mimetype='application/xml')
-        
 @app.route('/api/convert', methods=['POST'])
 def convert_file():
     try:
@@ -792,7 +784,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 if __name__ == '__main__':
     print("=" * 60)
-    print("PDF Nest - SEO Optimized Multi-Page Platform")
+    print("PDF pilot - SEO Optimized Multi-Page Platform")
     print("=" * 60)
     print("Server: http://localhost:5000")
     print("Pages:")

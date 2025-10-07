@@ -1,8 +1,8 @@
-# PDF Nest - Complete Project Summary & Architecture Documentation
+# PDF pilot - Complete Project Summary & Architecture Documentation
 
 ## Project Overview
 
-**PDF Nest** is a full-stack web application providing 6 browser-based PDF manipulation tools with a Python Flask backend and vanilla JavaScript frontend. The application emphasizes privacy (client-side processing where possible), mobile-first responsive design, and comprehensive user feedback collection.
+**PDF pilot** is a full-stack web application providing 6 browser-based PDF manipulation tools with a Python Flask backend and vanilla JavaScript frontend. The application emphasizes privacy (client-side processing where possible), mobile-first responsive design, and comprehensive user feedback collection.
 
 ---
 

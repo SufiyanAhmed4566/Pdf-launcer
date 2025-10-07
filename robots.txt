@@ -1,5 +1,5 @@
-# robots.txt for PDF Nest - Optimized for Google Search Console & SEO
-# https://pdfnest.com/robots.txt
+# robots.txt for PDF Pilot - Optimized for Google Search Console & SEO
+# https://pdfpilot.in/robots.txt
 # Last updated: 2025-10-04
 
 # ========================================
@@ -204,10 +204,10 @@ Disallow: /
 # ========================================
 # Sitemap Location (CRITICAL for GSC)
 # ========================================
-Sitemap: https://pdfnest.com/sitemap.xml
+Sitemap: https://pdfpilot.in/sitemap.xml
 
 # ========================================
 # Additional Guidelines
 # ========================================
 # Crawl-delay: Not set globally to allow fast crawling
-# Host: pdfnest.com (optional, for Yandex)
+# Host: pdfpilot.in (optional, for Yandex)

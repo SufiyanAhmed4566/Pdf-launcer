@@ -30,7 +30,7 @@ class FeedbackFormManager {
                 
                 <div class="feedback-header">
                     <h2>Help Us Improve! 🎊</h2>
-                    <p>We're new and super excited to make PDF Nest amazing for you! Share your thoughts and make us better together! 💫</p>
+                    <p>We're new and super excited to make PDF pilot amazing for you! Share your thoughts and make us better together! 💫</p>
                 </div>
 
                 <div class="form-progress">
@@ -120,7 +120,7 @@ class FeedbackFormManager {
                     <div class="checkbox-group">
                         <input type="checkbox" id="agreeTerms" class="checkbox-input" required>
                         <label for="agreeTerms" class="checkbox-label">
-                            🎯 I'm excited to help improve PDF Nest! I agree to share this info to make the website more awesome. My data will be used only for making your experience better! 
+                            🎯 I'm excited to help improve PDF pilot! I agree to share this info to make the website more awesome. My data will be used only for making your experience better! 
                             <span style="color: var(--primary); font-weight: 600;">You're helping build something great! 🚀</span>
                         </label>
                     </div>

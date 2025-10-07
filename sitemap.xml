@@ -7,7 +7,7 @@
 
     <!-- Homepage - Highest Priority -->
     <url>
-        <loc>https://pdfnest.com/</loc>
+        <loc>https://pdfpilot.in/</loc>
         <lastmod>2025-10-04</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
@@ -15,28 +15,28 @@
 
     <!-- Primary Tool Pages - High Priority for Indexing -->
     <url>
-        <loc>https://pdfnest.com/merge-pdf</loc>
+        <loc>https://pdfpilot.in/merge-pdf</loc>
         <lastmod>2025-10-04</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
 
     <url>
-        <loc>https://pdfnest.com/split-pdf</loc>
+        <loc>https://pdfpilot.in/split-pdf</loc>
         <lastmod>2025-10-04</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
 
     <url>
-        <loc>https://pdfnest.com/compress-pdf</loc>
+        <loc>https://pdfpilot.in/compress-pdf</loc>
         <lastmod>2025-10-04</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
 
     <url>
-        <loc>https://pdfnest.com/convert-pdf</loc>
+        <loc>https://pdfpilot.in/convert-pdf</loc>
         <lastmod>2025-10-04</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
@@ -44,14 +44,14 @@
 
     <!-- Secondary Tool Pages - Still Important -->
     <url>
-        <loc>https://pdfnest.com/delete-pdf-pages</loc>
+        <loc>https://pdfpilot.in/delete-pdf-pages</loc>
         <lastmod>2025-10-04</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://pdfnest.com/reorder-pdf-pages</loc>
+        <loc>https://pdfpilot.in/reorder-pdf-pages</loc>
         <lastmod>2025-10-04</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -59,28 +59,28 @@
 
     <!-- Support/Legal Pages - Lower Priority -->
     <url>
-        <loc>https://pdfnest.com/help</loc>
+        <loc>https://pdfpilot.in/help</loc>
         <lastmod>2025-10-04</lastmod>
         <changefreq>quarterly</changefreq>
         <priority>0.4</priority>
     </url>
 
     <url>
-        <loc>https://pdfnest.com/contact</loc>
+        <loc>https://pdfpilot.in/contact</loc>
         <lastmod>2025-10-04</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
 
     <url>
-        <loc>https://pdfnest.com/privacy</loc>
+        <loc>https://pdfpilot.in/privacy</loc>
         <lastmod>2025-10-04</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
 
     <url>
-        <loc>https://pdfnest.com/terms</loc>
+        <loc>https://pdfpilot.in/terms</loc>
         <lastmod>2025-10-04</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
