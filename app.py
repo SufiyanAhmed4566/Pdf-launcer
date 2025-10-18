@@ -7,7 +7,6 @@ import io
 import os
 import zipfile
 import uuid
-import mysql.connector
 from datetime import datetime
 from werkzeug.utils import secure_filename
 import tempfile
@@ -19,15 +18,6 @@ CORS(app)
 # Configuration
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-
-# MySQL Database Configuration
-DB_CONFIG = {
-    'host': '192.168.24.28',
-    'user': 'root',
-    'password': 'getplacebefore@2025',
-    'database': 'pdfnest_db',
-    'auth_plugin': 'mysql_native_password'
-}
 
 # Session Management
 active_sessions = {}
@@ -74,137 +64,6 @@ def validate_session(session_id, operation=None):
     if current_op and operation and current_op != operation:
         return False, f"Another operation ({current_op}) is in progress"
     return True, "OK"
-
-# Database Functions
-def get_db_connection():
-    try:
-        conn = mysql.connector.connect(**DB_CONFIG)
-        return conn
-    except mysql.connector.Error as err:
-        print(f"Database connection error: {err}")
-        return None
-
-def init_database():
-    try:
-        conn = mysql.connector.connect(
-            host=DB_CONFIG['host'],
-            user=DB_CONFIG['user'],
-            password=DB_CONFIG['password'],
-            auth_plugin='mysql_native_password'
-        )
-        cursor = conn.cursor()
-        
-        cursor.execute(f"CREATE DATABASE IF NOT EXISTS {DB_CONFIG['database']}")
-        cursor.execute(f"USE {DB_CONFIG['database']}")
-        
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS users (
-                user_id VARCHAR(50) PRIMARY KEY,
-                email VARCHAR(255) UNIQUE NOT NULL,
-                name VARCHAR(255) NOT NULL,
-                location VARCHAR(255) NOT NULL,
-                user_type VARCHAR(50) NOT NULL,
-                age_group VARCHAR(20) NOT NULL,
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                INDEX idx_email (email),
-                INDEX idx_created_at (created_at)
-            )
-        """)
-        
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS user_operations (
-                operation_id VARCHAR(36) PRIMARY KEY,
-                user_id VARCHAR(50) NOT NULL,
-                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-                feature_used VARCHAR(50) NOT NULL,
-                rating INT NOT NULL,
-                feedback TEXT NOT NULL,
-                FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-                INDEX idx_user_id (user_id),
-                INDEX idx_timestamp (timestamp),
-                INDEX idx_feature (feature_used)
-            )
-        """)
-        
-        conn.commit()
-        cursor.close()
-        conn.close()
-        print("✅ Database initialized successfully")
-        
-    except mysql.connector.Error as err:
-        print(f"❌ Database initialization error: {err}")
-
-def generate_user_id(email):
-    try:
-        conn = get_db_connection()
-        if not conn:
-            return None
-        cursor = conn.cursor()
-        cursor.execute("SELECT user_id FROM users WHERE email = %s", (email,))
-        existing_user = cursor.fetchone()
-        if existing_user:
-            cursor.close()
-            conn.close()
-            return existing_user[0]
-        cursor.execute("SELECT COUNT(*) FROM users")
-        user_count = cursor.fetchone()[0]
-        user_id = f"user_{user_count + 1:03d}"
-        cursor.close()
-        conn.close()
-        return user_id
-    except mysql.connector.Error as err:
-        print(f"User ID generation error: {err}")
-        return None
-
-def save_user_data(data):
-    try:
-        conn = get_db_connection()
-        if not conn:
-            return False
-        cursor = conn.cursor()
-        
-        user_id = generate_user_id(data.get('email'))
-        if not user_id:
-            return False
-        
-        cursor.execute("SELECT user_id FROM users WHERE email = %s", (data.get('email'),))
-        existing_user = cursor.fetchone()
-        
-        if not existing_user:
-            cursor.execute("""
-                INSERT INTO users (user_id, email, name, location, user_type, age_group)
-                VALUES (%s, %s, %s, %s, %s, %s)
-            """, (
-                user_id,
-                data.get('email'),
-                data.get('name'),
-                data.get('location'),
-                data.get('user_type'),
-                data.get('age_group')
-            ))
-        
-        cursor.execute("""
-            INSERT INTO user_operations (operation_id, user_id, feature_used, rating, feedback)
-            VALUES (%s, %s, %s, %s, %s)
-        """, (
-            str(uuid.uuid4()),
-            user_id,
-            data.get('feature_used'),
-            int(data.get('rating', 0)),
-            data.get('feedback', '')
-        ))
-        
-        conn.commit()
-        cursor.close()
-        conn.close()
-        print(f"✅ User data saved: {data.get('name')} - {data.get('feature_used')}")
-        return True
-    except mysql.connector.Error as err:
-        print(f"❌ Database save error: {err}")
-        return False
-
-init_database()
-
 
 from flask import send_from_directory
 
@@ -272,11 +131,11 @@ def save_user_data_route():
         for field in required_fields:
             if not data.get(field):
                 return jsonify({'status': 'error', 'message': f'Missing required field: {field}'}), 400
-        success = save_user_data(data)
-        if success:
-            return jsonify({'status': 'success', 'message': 'Data saved successfully'}), 200
-        else:
-            return jsonify({'status': 'error', 'message': 'Failed to save data'}), 500
+        
+        # Simply return success since we're not saving to database anymore
+        print(f"User feedback received: {data.get('name')} - {data.get('feature_used')} - Rating: {data.get('rating')}")
+        return jsonify({'status': 'success', 'message': 'Feedback received successfully'}), 200
+        
     except Exception as e:
         print(f"Error in save_user_data: {e}")
         return jsonify({'status': 'error', 'message': str(e)}), 500

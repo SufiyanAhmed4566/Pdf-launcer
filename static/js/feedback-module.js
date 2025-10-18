@@ -4,7 +4,8 @@ class FeedbackFormManager {
         this.initialized = false;
         this.currentOperation = '';
         this.currentOperationFunction = null;
-    }
+        this.googleScriptURL ="https://script.google.com/macros/s/AKfycbyGl1IsmnaJg9dPRc4lggiXG21n8d_T9rV9F1Z2G9WYzKxZG6FPCH1zoc6x_jTeRfFHUg/exec";
+    }                        
 
     init() {
         if (this.initialized) return;
@@ -130,7 +131,6 @@ class FeedbackFormManager {
                             <i class="fas fa-rocket"></i>
                             Launch & Download! 🚀
                         </button>
-                    
                     </div>
                 </form>
             </div>
@@ -181,54 +181,89 @@ class FeedbackFormManager {
     }
 
     async handleFormSubmit() {
-        const rating = document.getElementById('userRating').value;
-        if (!rating) {
-            this.shakeRatingGroup();
-            return;
-        }
-
-        const submitBtn = document.getElementById('submitFeedback');
-        submitBtn.innerHTML = '<div class="spinner"></div> Launching... 🚀';
-        submitBtn.disabled = true;
-
-        try {
-            const userData = {
-                name: document.getElementById('userName').value,
-                email: document.getElementById('userEmail').value,
-                location: document.getElementById('userLocation').value,
-                user_type: document.getElementById('userType').value,
-                age_group: document.getElementById('ageGroup').value,
-                rating: rating,
-                feedback: document.getElementById('userFeedback').value,
-                feature_used: this.currentOperation
-            };
-
-            const saveResponse = await fetch('/api/save_user_data', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(userData)
-            });
-
-            const saveResult = await saveResponse.json();
-            
-            if (saveResult.status === 'success') {
-                this.showCelebration();
-                setTimeout(() => {
-                    this.currentOperationFunction();
-                    this.hideFeedbackForm();
-                }, 2000);
-            } else {
-                alert('Oops! Something went wrong: ' + saveResult.message);
-            }
-        } catch (error) {
-            console.error('Feedback submission failed:', error);
-            alert('Submission failed. Please try again.');
-        } finally {
-            submitBtn.innerHTML = '<i class="fas fa-rocket"></i> Launch & Download! 🚀';
-            submitBtn.disabled = false;
-        }
+    const rating = document.getElementById('userRating').value;
+    if (!rating) {
+        this.shakeRatingGroup();
+        return;
     }
 
+    const submitBtn = document.getElementById('submitFeedback');
+    submitBtn.innerHTML = '<div class="spinner"></div> Launching... 🚀';
+    submitBtn.disabled = true;
+
+    try {
+        const formData = {
+            name: document.getElementById('userName').value,
+            email: document.getElementById('userEmail').value,
+            location: document.getElementById('userLocation').value,
+            user_type: document.getElementById('userType').value,
+            age_group: document.getElementById('ageGroup').value,
+            rating: rating,
+            feedback: document.getElementById('userFeedback').value,
+            feature_used: this.currentOperation,
+            timestamp: new Date().toISOString()
+        };
+
+        console.log('📤 Sending data to Google Apps Script:', formData);
+
+        // Method 1: Try with no-cors first
+        try {
+            await fetch(this.googleScriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+            console.log('✅ Request sent (no-cors mode)');
+        } catch (error) {
+            console.log('⚠️ No-cors failed, trying alternative...');
+            
+            // Method 2: Use XMLHttpRequest as fallback
+            await this.sendWithXMLHttpRequest(formData);
+        }
+
+        this.showCelebration();
+        setTimeout(() => {
+            if (this.currentOperationFunction) {
+                this.currentOperationFunction();
+            }
+            this.hideFeedbackForm();
+        }, 2000);
+
+    } catch (error) {
+        console.error('❌ All submission methods failed:', error);
+        alert('Submission failed. Please check console for details.');
+    } finally {
+        submitBtn.innerHTML = '<i class="fas fa-rocket"></i> Launch & Download! 🚀';
+        submitBtn.disabled = false;
+    }
+}
+
+// Add this helper method
+sendWithXMLHttpRequest(formData) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', this.googleScriptURL, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        
+        xhr.onload = function() {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                console.log('✅ XMLHttpRequest success');
+                resolve(xhr.response);
+            } else {
+                reject(new Error(`HTTP ${xhr.status}: ${xhr.statusText}`));
+            }
+        };
+        
+        xhr.onerror = function() {
+            reject(new Error('Network error with XMLHttpRequest'));
+        };
+        
+        xhr.send(JSON.stringify(formData));
+    });
+}
     showFeedbackForm(operationType, operationFunction) {
         this.currentOperation = operationType;
         this.currentOperationFunction = operationFunction;
@@ -288,7 +323,7 @@ class FeedbackFormManager {
 // Create global instance
 window.FeedbackManager = new FeedbackFormManager();
 
-// Add CSS styles dynamically// Replace the feedbackStyles constant with this complete code:
+// Add CSS styles dynamically
 const feedbackStyles = `
 <style>
     .feedback-overlay {
@@ -860,6 +895,23 @@ const feedbackStyles = `
             top: 0.75rem;
             right: 0.75rem;
         }
+    }
+
+    /* Spinner styles */
+    .spinner {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #ffffff;
+        border-top: 2px solid transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        display: inline-block;
+        margin-right: 8px;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
 </style>
 `;
